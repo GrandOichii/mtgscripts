@@ -4,7 +4,6 @@ function _Create(children)
         return children[1]
     end
     for i, child in ipairs(children) do
-        print(child == '')
         if child ~= '' then
             if i ~= 1 then
                 result = result..',\n'

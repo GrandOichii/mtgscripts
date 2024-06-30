@@ -11,26 +11,6 @@ children:
       status: SUCCESS
       children:
       - parentName: pip-cost
-        status: SUCCESS
-        children:
-        - parentName: pip-splitter
-          status: SUCCESS
-          children:
-          - parentName: pip-selector
-            status: SUCCESS
-            children:
-            - parentName: mana-pip
-              status: SUCCESS
-              children: []
-              text: G
-            text: G
-          text: G
-        text: '{G}'
-      text: '{G}'
-    - parentName: cost-selector
-      status: SUCCESS
-      children:
-      - parentName: pip-cost
         status: CHILD_FAILED
         children:
         - parentName: pip-splitter
@@ -55,50 +35,18 @@ children:
         children: []
         text: '{T}'
       text: '{T}'
-    text: '{G}, {T}'
+    text: '{T}'
   - parentName: effect
     status: SUCCESS
     children:
     - parentName: add-mana
+      status: DIDNT_MATCH
+      children: []
+      text: You gain 1 life.
+    - parentName: life-gain-effect
       status: SUCCESS
-      children:
-      - parentName: add-mana-splitter
-        status: SUCCESS
-        children:
-        - parentName: pip-splitter
-          status: SUCCESS
-          children:
-          - parentName: pip-selector
-            status: SUCCESS
-            children:
-            - parentName: mana-pip
-              status: SUCCESS
-              children: []
-              text: B
-            text: B
-          - parentName: pip-selector
-            status: SUCCESS
-            children:
-            - parentName: mana-pip
-              status: SUCCESS
-              children: []
-              text: R
-            text: R
-          text: '{B}{R}'
-        - parentName: pip-splitter
-          status: SUCCESS
-          children:
-          - parentName: pip-selector
-            status: SUCCESS
-            children:
-            - parentName: mana-pip
-              status: SUCCESS
-              children: []
-              text: C
-            text: C
-          text: '{C}'
-        text: '{B}{R} or {C}'
-      text: Add {B}{R} or {C}.
-    text: Add {B}{R} or {C}.
-  text: '{G}, {T}: Add {B}{R} or {C}.'
-text: '{G}, {T}: Add {B}{R} or {C}.'
+      children: []
+      text: You gain 1 life.
+    text: You gain 1 life.
+  text: '{T}: You gain 1 life.'
+text: '{T}: You gain 1 life.'

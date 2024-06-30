@@ -9,6 +9,5 @@ function _Create(children, data)
         G = 'Green',
         C = 'Colorless',
     }
-    print(data[1])
     return 'Mana.'..colorMap[data[1]]
 end

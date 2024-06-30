@@ -5,7 +5,7 @@ using YamlDotNet.Serialization.NamingConventions;
 
 var card = new Card {
     Name = "Ramunap Ruins",
-    Text = "{G}, {T}: Add {B}{R} or {C}.",
+    Text = "{T}: You gain 1 life.",
 };
 
 var todo = new Matcher() {
@@ -101,11 +101,18 @@ var addMana = new Matcher() {
     }
 };
 
+var lifeGainEffect = new Matcher() {
+    Name = "life-gain-effect",
+    PatternString = "you gain ([0-9]+) life.",
+    Script = File.ReadAllText("life-gain.lua")
+};
+
 var effect = new Selector() {
     Name = "effect",
     Script = File.ReadAllText("effect.lua"),
     Children = {
         addMana,
+        lifeGainEffect
         // todo
     }
 };
