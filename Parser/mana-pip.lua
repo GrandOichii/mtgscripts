@@ -9,5 +9,5 @@ function _Create(children, data)
         G = 'Green',
     }
 
-    return 'Cost.'..colorMap[data[1]]
+    return 'Mana.'..colorMap[data[1]]
 end

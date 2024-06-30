@@ -4,8 +4,14 @@ using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
 var card = new Card {
-    Name = "Eastern Paladin",
-    Text = "{B}{B}, {T}: Destroy target green creature.",
+    Name = "Ramunap Ruins",
+    Text = "{T}: Add {G}, {W}, or {U}.",
+};
+
+var todo = new Matcher() {
+    Name = "TODO",
+    PatternString = ".+",
+    Script = "function _Create(children) return '-- TODO' end"
 };
 
 var manaPip = new Matcher() {
@@ -14,25 +20,46 @@ var manaPip = new Matcher() {
     PatternString = @"[W|U|B|R|G]",
 };
 
+var genericPip = new Matcher() {
+    Name = "generic-pip",
+    PatternString = @"[1-9]?[0-9]",
+    Script = File.ReadAllText("generic-pip.lua")
+};
+
 var tap = new Matcher() {
     Name = "tap",
     Script = File.ReadAllText("tap.lua"),
     PatternString = @"\{T\}"
 };
 
+var pipSelector = new Selector() {
+    Name = "pip-selector",
+    Children = {
+        manaPip,
+        genericPip
+    }
+};
+
 var pipSplitter = new Splitter() {
     Name = "pip-splitter",
     PatternString = @"{|}{|}",
     Children = {
-        manaPip
+        pipSelector
     }
+};
+
+var payLifeCost = new Matcher() {
+    Name = "pay-life-cost",
+    PatternString = "pay ([0-9]+) life",
+    Script = File.ReadAllText("pay-life-cost.lua")
 };
 
 var costSelector = new Selector() {
     Name = "cost-selector",
     Children = {
         pipSplitter,
-        tap
+        tap,
+        payLifeCost
     }
 };
 
@@ -45,10 +72,33 @@ var cost = new Splitter() {
     }
 };
 
-var effect = new Matcher() {
+var addManaSplitter = new Splitter() {
+    Name = "add-mana-splitter",
+    PatternString = @"\} or \{|\}, or \{|, |\{|\}",
+    Script = File.ReadAllText("add-mana-splitter.lua"),
+    Children = {
+        // TODO not mana pip
+        manaPip
+    }
+};
+
+var addMana = new Matcher() {
+    Name = "add-mana",
+    PatternString = @"add (.+)\.",
+    Script = File.ReadAllText("add-mana.lua"),
+    Children = {
+        addManaSplitter,
+        pipSplitter
+    }
+};
+
+var effect = new Selector() {
     Name = "effect",
-    PatternString = @".+",
-    Script = "function _Create(children) return '.Effect(\\n-- TODO\\n)' end"
+    Script = File.ReadAllText("effect.lua"),
+    Children = {
+        addMana,
+        // todo
+    }
 };
 
 var activatedAbility = new Matcher() {
@@ -61,6 +111,7 @@ var activatedAbility = new Matcher() {
     }
 };
 
+
 var parser = new Matcher(){
     Name = "root",
     PatternString = "(.+)",
@@ -69,6 +120,7 @@ var parser = new Matcher(){
         activatedAbility
     }
 };
+
 
 var result = parser.Parse(card.Text);
 

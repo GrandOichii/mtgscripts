@@ -1,18 +1,20 @@
 function _Create()
 return Card.Card()
-	.Activated(ActivatedAbility()
-			.Cost(
-															Cost.Black
-										,
-															Cost.Black
+.Activated(ActivatedAbility()
+	.Cost(
+						Cost.Tap
+	)
+	.Effect(
+			Effect.AddMana(
+						Mana.Or(
+										Mana.Green
+						,
+										Mana.White
+						,
+										Mana.Blue
+						)
 			)
-			.Cost(
-										Cost.Tap
-			)
-			.Effect(
-			-- TODO
-			)
-	.Create())
-
+	)
+.Create())
 .Create()
 end

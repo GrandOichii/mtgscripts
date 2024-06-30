@@ -8,7 +8,7 @@ public class Matcher : Parser {
     public string PatternString { 
         get => Pattern.ToString();
         set {
-            Pattern = new Regex("^" + value + "$", RegexOptions.Multiline);
+            Pattern = new Regex("^(?i)" + value + "$", RegexOptions.Multiline);
         }
     }
     public Regex Pattern { get; private set; }
@@ -21,6 +21,7 @@ public class Matcher : Parser {
         if (!match.Success) return new MatcherParseResult(match.Groups, this, ParseResultStatus.DIDNT_MATCH, text);
         var status = ParseResultStatus.SUCCESS;
         var children = new List<ParseResult>();
+        if (Children.Count == 0) return new MatcherParseResult(match.Groups, this, ParseResultStatus.SUCCESS, text);
         for (int i = 1; i < match.Groups.Count; i++) {
             var child = Children[i - 1];
             var group = match.Groups[i];
