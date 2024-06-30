@@ -10,19 +10,43 @@ children:
     - parentName: cost-selector
       status: SUCCESS
       children:
-      - parentName: pip-splitter
-        status: DIDNT_MATCH
+      - parentName: pip-cost
+        status: SUCCESS
         children:
-        - parentName: pip-selector
+        - parentName: pip-splitter
+          status: SUCCESS
+          children:
+          - parentName: pip-selector
+            status: SUCCESS
+            children:
+            - parentName: mana-pip
+              status: SUCCESS
+              children: []
+              text: G
+            text: G
+          text: G
+        text: '{G}'
+      text: '{G}'
+    - parentName: cost-selector
+      status: SUCCESS
+      children:
+      - parentName: pip-cost
+        status: CHILD_FAILED
+        children:
+        - parentName: pip-splitter
           status: DIDNT_MATCH
           children:
-          - parentName: mana-pip
+          - parentName: pip-selector
             status: DIDNT_MATCH
-            children: []
-            text: T
-          - parentName: generic-pip
-            status: DIDNT_MATCH
-            children: []
+            children:
+            - parentName: mana-pip
+              status: DIDNT_MATCH
+              children: []
+              text: T
+            - parentName: generic-pip
+              status: DIDNT_MATCH
+              children: []
+              text: T
             text: T
           text: T
         text: '{T}'
@@ -31,7 +55,7 @@ children:
         children: []
         text: '{T}'
       text: '{T}'
-    text: '{T}'
+    text: '{G}, {T}'
   - parentName: effect
     status: SUCCESS
     children:
@@ -41,20 +65,40 @@ children:
       - parentName: add-mana-splitter
         status: SUCCESS
         children:
-        - parentName: mana-pip
+        - parentName: pip-splitter
           status: SUCCESS
-          children: []
-          text: G
-        - parentName: mana-pip
+          children:
+          - parentName: pip-selector
+            status: SUCCESS
+            children:
+            - parentName: mana-pip
+              status: SUCCESS
+              children: []
+              text: B
+            text: B
+          - parentName: pip-selector
+            status: SUCCESS
+            children:
+            - parentName: mana-pip
+              status: SUCCESS
+              children: []
+              text: R
+            text: R
+          text: '{B}{R}'
+        - parentName: pip-splitter
           status: SUCCESS
-          children: []
-          text: W
-        - parentName: mana-pip
-          status: SUCCESS
-          children: []
-          text: U
-        text: '{G}, {W}, or {U}'
-      text: Add {G}, {W}, or {U}.
-    text: Add {G}, {W}, or {U}.
-  text: '{T}: Add {G}, {W}, or {U}.'
-text: '{T}: Add {G}, {W}, or {U}.'
+          children:
+          - parentName: pip-selector
+            status: SUCCESS
+            children:
+            - parentName: mana-pip
+              status: SUCCESS
+              children: []
+              text: C
+            text: C
+          text: '{C}'
+        text: '{B}{R} or {C}'
+      text: Add {B}{R} or {C}.
+    text: Add {B}{R} or {C}.
+  text: '{G}, {T}: Add {B}{R} or {C}.'
+text: '{G}, {T}: Add {B}{R} or {C}.'

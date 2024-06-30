@@ -50,7 +50,7 @@ public class ParseResult {
         
         var children = new List<string>();
         foreach (var child in Children) {
-            var s = child.CreateScript(state, indent);
+            var s = child.CreateScript(state, indent + 1);
             var split = s.Split("\n");
             var indented = "";
             var indentString = new string('\t', indent);

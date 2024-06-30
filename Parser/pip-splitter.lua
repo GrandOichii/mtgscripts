@@ -1,9 +1,10 @@
 function _Create(children)
+    local result = ''
     if #children == 1 then
         return children[1]
     end
-    local result = ''
     for i, child in ipairs(children) do
+        print(child == '')
         if child ~= '' then
             if i ~= 1 then
                 result = result..',\n'
@@ -11,5 +12,5 @@ function _Create(children)
             result = result..child
         end
     end
-    return 'Mana.Or(\n'..result..'\n)'
+    return 'Mana.And(\n'..result..'\n)'
 end

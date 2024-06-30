@@ -54,8 +54,9 @@ public class MatcherParseResult : ParseResult
 
     private LuaTable GetData(Lua state) {
         var data = new List<string>();
-        foreach (var group in Groups)
+        foreach (var group in Groups) {
             data.Add(group.ToString()!);
+        }
         return LuaUtility.CreateTable(state, data);
     }
 

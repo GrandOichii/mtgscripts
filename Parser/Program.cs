@@ -5,7 +5,7 @@ using YamlDotNet.Serialization.NamingConventions;
 
 var card = new Card {
     Name = "Ramunap Ruins",
-    Text = "{T}: Add {G}, {W}, or {U}.",
+    Text = "{G}, {T}: Add {B}{R} or {C}.",
 };
 
 var todo = new Matcher() {
@@ -17,7 +17,7 @@ var todo = new Matcher() {
 var manaPip = new Matcher() {
     Name = "mana-pip",
     Script = File.ReadAllText("mana-pip.lua"),
-    PatternString = @"[W|U|B|R|G]",
+    PatternString = @"[W|U|B|R|G|C]",
 };
 
 var genericPip = new Matcher() {
@@ -42,7 +42,8 @@ var pipSelector = new Selector() {
 
 var pipSplitter = new Splitter() {
     Name = "pip-splitter",
-    PatternString = @"{|}{|}",
+    PatternString = @"\{|\}\{|\}",
+    Script = File.ReadAllText("pip-splitter.lua"),
     Children = {
         pipSelector
     }
@@ -54,10 +55,19 @@ var payLifeCost = new Matcher() {
     Script = File.ReadAllText("pay-life-cost.lua")
 };
 
+var pipCost = new Matcher() {
+    Name = "pip-cost",
+    PatternString = @"\{(.+)\}",
+    Script = File.ReadAllText("pip-cost.lua"),
+    Children = {
+        pipSplitter
+    }
+};
+
 var costSelector = new Selector() {
     Name = "cost-selector",
     Children = {
-        pipSplitter,
+        pipCost,
         tap,
         payLifeCost
     }
@@ -74,11 +84,11 @@ var cost = new Splitter() {
 
 var addManaSplitter = new Splitter() {
     Name = "add-mana-splitter",
-    PatternString = @"\} or \{|\}, or \{|, |\{|\}",
+    PatternString = @" or |, or |, ",
     Script = File.ReadAllText("add-mana-splitter.lua"),
     Children = {
         // TODO not mana pip
-        manaPip
+        pipSplitter
     }
 };
 
@@ -88,7 +98,6 @@ var addMana = new Matcher() {
     Script = File.ReadAllText("add-mana.lua"),
     Children = {
         addManaSplitter,
-        pipSplitter
     }
 };
 
