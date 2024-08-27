@@ -1,9 +1,9 @@
 using System.Text.RegularExpressions;
 using NLua;
 
-namespace Parser;
+namespace ScriptParser;
 
-public class Splitter : Parser {
+public class Splitter : ParserBase {
     public string PatternString { 
         get => Pattern.ToString();
         set {
@@ -13,7 +13,7 @@ public class Splitter : Parser {
     public Regex Pattern { get; private set; }
 
     public Splitter() {
-        Script = File.ReadAllText("splitter.lua");
+        Script = File.ReadAllText("../scripts/splitter.lua");
     }
 
     public override ParseResult Parse(string text)

@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://mujpyandlgwi"]
+
+[ext_resource type="Script" path="res://Root.cs" id="1_lu6g5"]
+[ext_resource type="PackedScene" uid="uid://bcr1u5fa35gli" path="res://v1/ParserCanvasScene.tscn" id="2_lu0ya"]
+[ext_resource type="Theme" uid="uid://dcu3lfbvhv0f1" path="res://assets/themes/basic.tres" id="3_gunxu"]
+
+[node name="Root" type="Node"]
+script = ExtResource("1_lu6g5")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ParserCanvas" parent="CanvasLayer" instance=ExtResource("2_lu0ya")]
+theme = ExtResource("3_gunxu")

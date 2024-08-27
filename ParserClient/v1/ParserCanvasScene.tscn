@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://bcr1u5fa35gli"]
+
+[ext_resource type="Script" path="res://v1/ParserCanvasScene.cs" id="1_6o5k0"]
+[ext_resource type="PackedScene" uid="uid://48xy8ftvka7y" path="res://v1/Parsers/Matcher/MatcherNodeScene.tscn" id="2_jh3fr"]
+[ext_resource type="PackedScene" uid="uid://by25bmmhenrh1" path="res://v1/Parsers/Selector/SelectorNodeScene.tscn" id="3_6k3gc"]
+[ext_resource type="PackedScene" uid="uid://nn07tskof4h" path="res://v1/Parsers/Splitter/SplitterNodeScene.tscn" id="4_yyw4y"]
+
+[node name="ParserCanvas" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6o5k0")
+MatcherScene = ExtResource("2_jh3fr")
+SelectorScene = ExtResource("3_6k3gc")
+SplitterScene = ExtResource("4_yyw4y")
+
+[node name="Graph" type="GraphEdit" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

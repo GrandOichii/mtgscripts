@@ -1,12 +1,12 @@
 using System.Text.RegularExpressions;
 using NLua;
 
-namespace Parser;
+namespace ScriptParser;
 
-public class Selector : Parser {
+public class Selector : ParserBase {
 
     public Selector() {
-        Script = File.ReadAllText("selector.lua");
+        Script = File.ReadAllText("../scripts/selector.lua");
     }
 
     public override ParseResult Parse(string text) {

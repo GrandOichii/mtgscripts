@@ -2,9 +2,9 @@ using System.Text.RegularExpressions;
 using NLua;
 using YamlDotNet.Serialization;
 
-namespace Parser;
+namespace ScriptParser;
 
-public class Matcher : Parser {
+public class Matcher : ParserBase {
     public string PatternString { 
         get => Pattern.ToString();
         set {
@@ -42,12 +42,12 @@ public class MatcherParseResult : ParseResult
     [YamlIgnore]
     public GroupCollection Groups { get; }
 
-    public MatcherParseResult(GroupCollection groups, Parser parent, ParseResultStatus status, string text) : base(parent, status, text)
+    public MatcherParseResult(GroupCollection groups, ParserBase parent, ParseResultStatus status, string text) : base(parent, status, text)
     {
         Groups = groups;
     }
 
-    public MatcherParseResult(GroupCollection groups, Parser parent, ParseResultStatus status, string text, List<ParseResult> children) : base(parent, status, text, children)
+    public MatcherParseResult(GroupCollection groups, ParserBase parent, ParseResultStatus status, string text, List<ParseResult> children) : base(parent, status, text, children)
     {
         Groups = groups;
     }

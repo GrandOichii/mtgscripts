@@ -1,5 +1,5 @@
 using System.Text.Json;
-using Parser;
+using ScriptParser;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -16,19 +16,19 @@ var todo = new Matcher() {
 
 var manaPip = new Matcher() {
     Name = "mana-pip",
-    Script = File.ReadAllText("mana-pip.lua"),
+    Script = File.ReadAllText("../scripts/mana-pip.lua"),
     PatternString = @"[W|U|B|R|G|C]",
 };
 
 var genericPip = new Matcher() {
     Name = "generic-pip",
     PatternString = @"[1-9]?[0-9]",
-    Script = File.ReadAllText("generic-pip.lua")
+    Script = File.ReadAllText("../scripts/generic-pip.lua")
 };
 
 var tap = new Matcher() {
     Name = "tap",
-    Script = File.ReadAllText("tap.lua"),
+    Script = File.ReadAllText("../scripts/tap.lua"),
     PatternString = @"\{T\}"
 };
 
@@ -43,7 +43,7 @@ var pipSelector = new Selector() {
 var pipSplitter = new Splitter() {
     Name = "pip-splitter",
     PatternString = @"\{|\}\{|\}",
-    Script = File.ReadAllText("pip-splitter.lua"),
+    Script = File.ReadAllText("../scripts/pip-splitter.lua"),
     Children = {
         pipSelector
     }
@@ -52,13 +52,13 @@ var pipSplitter = new Splitter() {
 var payLifeCost = new Matcher() {
     Name = "pay-life-cost",
     PatternString = "pay ([0-9]+) life",
-    Script = File.ReadAllText("pay-life-cost.lua")
+    Script = File.ReadAllText("../scripts/pay-life-cost.lua")
 };
 
 var pipCost = new Matcher() {
     Name = "pip-cost",
     PatternString = @"\{(.+)\}",
-    Script = File.ReadAllText("pip-cost.lua"),
+    Script = File.ReadAllText("../scripts/pip-cost.lua"),
     Children = {
         pipSplitter
     }
@@ -76,7 +76,7 @@ var costSelector = new Selector() {
 var cost = new Splitter() {
     Name = "cost-splitter",
     PatternString = ", ",
-    Script = File.ReadAllText("cost-splitter.lua"),
+    Script = File.ReadAllText("../scripts/cost-splitter.lua"),
     Children = {
         costSelector
     }
@@ -85,7 +85,7 @@ var cost = new Splitter() {
 var addManaSplitter = new Splitter() {
     Name = "add-mana-splitter",
     PatternString = @" or |, or |, ",
-    Script = File.ReadAllText("add-mana-splitter.lua"),
+    Script = File.ReadAllText("../scripts/add-mana-splitter.lua"),
     Children = {
         // TODO not mana pip
         pipSplitter
@@ -95,7 +95,7 @@ var addManaSplitter = new Splitter() {
 var addMana = new Matcher() {
     Name = "add-mana",
     PatternString = @"add (.+)\.",
-    Script = File.ReadAllText("add-mana.lua"),
+    Script = File.ReadAllText("../scripts/add-mana.lua"),
     Children = {
         addManaSplitter,
     }
@@ -104,12 +104,12 @@ var addMana = new Matcher() {
 var lifeGainEffect = new Matcher() {
     Name = "life-gain-effect",
     PatternString = "you gain ([0-9]+) life.",
-    Script = File.ReadAllText("life-gain.lua")
+    Script = File.ReadAllText("../scripts/life-gain.lua")
 };
 
 var effect = new Selector() {
     Name = "effect",
-    Script = File.ReadAllText("effect.lua"),
+    Script = File.ReadAllText("../scripts/effect.lua"),
     Children = {
         addMana,
         lifeGainEffect
@@ -120,7 +120,7 @@ var effect = new Selector() {
 var activatedAbility = new Matcher() {
     Name = "activated-ability",
     PatternString = "(.+): (.+)",
-    Script = File.ReadAllText("activated-ability.lua"),
+    Script = File.ReadAllText("../scripts/activated-ability.lua"),
     Children = {
         cost,
         effect
@@ -131,7 +131,7 @@ var activatedAbility = new Matcher() {
 var parser = new Matcher(){
     Name = "root",
     PatternString = "(.+)",
-    Script = File.ReadAllText("root.lua"),
+    Script = File.ReadAllText("../scripts/root.lua"),
     Children = {
         activatedAbility
     }

@@ -1,6 +1,6 @@
 using NLua;
 
-namespace Parser;
+namespace ScriptParser;
 
 /// <summary>
 /// Represents an error of accessing data from Lua

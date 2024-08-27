@@ -1,4 +1,4 @@
-namespace Parser;
+namespace ScriptParser;
 
 public class Card {
     public required string Name { get; set; }

@@ -7,6 +7,6 @@ return Card.Card()
 	.Effect(
 			Effect.GainLife(1)
 	)
-.Build())
-.Build()
+.Create())
+.Create()
 end

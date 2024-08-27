@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://48xy8ftvka7y"]
+
+[ext_resource type="Script" path="res://v1/Parsers/Matcher/MatcherNodeScene.cs" id="1_lah3q"]
+
+[node name="MatcherNodeScene" type="GraphNode"]
+offset_right = 150.0
+offset_bottom = 150.0
+title = "Matcher"
+script = ExtResource("1_lah3q")

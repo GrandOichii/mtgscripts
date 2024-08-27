@@ -1,7 +1,7 @@
 using NLua;
 using YamlDotNet.Serialization;
 
-namespace Parser;
+namespace ScriptParser;
 
 public enum ParseResultStatus {
     SUCCESS = 0,
@@ -12,14 +12,14 @@ public enum ParseResultStatus {
 
 public class ParseResult {
     [YamlIgnore]
-    public Parser Parent { get; }
+    public ParserBase Parent { get; }
     // public readonly Parser Parent;
     public string ParentName { get; }
     public ParseResultStatus Status { get; }
     public List<ParseResult> Children { get; }
     public string Text { get; }
 
-    public ParseResult(Parser parent, ParseResultStatus status, string text) {
+    public ParseResult(ParserBase parent, ParseResultStatus status, string text) {
         Text = text;
         Parent = parent;
         ParentName = parent.Name;
@@ -27,7 +27,7 @@ public class ParseResult {
         Children = new();
     }
 
-    public ParseResult(Parser parent, ParseResultStatus status, string text, List<ParseResult> children) : this(parent, status, text) {
+    public ParseResult(ParserBase parent, ParseResultStatus status, string text, List<ParseResult> children) : this(parent, status, text) {
         Children = children;
     }
 
