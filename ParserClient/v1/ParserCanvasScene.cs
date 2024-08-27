@@ -22,6 +22,8 @@ public partial class ParserCanvasScene : Control
 	#region Nodes
 	
 	public GraphEdit Graph { get; private set; }
+	public PopupMenu AddNodePopup { get; private set; }
+	public PopupMenu TemplatesPopup { get; private set; }
 	
 	#endregion
 
@@ -32,6 +34,8 @@ public partial class ParserCanvasScene : Control
 		#region Node fetching
 		
 		Graph = GetNode<GraphEdit>("%Graph");
+		AddNodePopup = GetNode<PopupMenu>("%AddNodePopup");
+		TemplatesPopup = GetNode<PopupMenu>("%TemplatesPopup");
 		
 		#endregion
 
@@ -173,15 +177,21 @@ public partial class ParserCanvasScene : Control
 			SplitterScene
 		);
 
+		CreateSubmenus();
+
 		Load(parser);
+	}
+
+	private void CreateSubmenus() {
+		AddNodePopup.AddSubmenuNodeItem("Templates", TemplatesPopup);
 	}
 
 	public void Load(ParserBase parser) {
 		// TODO erase all previous nodes
 		CreateParserNode(parser);
 
-		// Graph.ArrangeNodes();
-		Graph.CallDeferred("arrange_nodes");
+		Graph.ArrangeNodes();
+		// Graph.CallDeferred("arrange_nodes");
 	}
 
 	public IParserBaseNode CreateParserNode(ParserBase parser) {
@@ -204,4 +214,56 @@ public partial class ParserCanvasScene : Control
 
 		return result;
 	}
+
+	private Vector2 GraphMouseProjection() => (Graph.ScrollOffset + Graph.GetLocalMousePosition()) / Graph.Zoom;
+	
+	private void AddGraphNode() {
+		// var child = new GraphNode();
+		// Graph.AddChild(child);
+
+		// var pos = GraphMouseProjection();
+		// child.PositionOffset = pos;
+
+		AddNodePopup.Position = (Vector2I)GetGlobalMousePosition();
+		AddNodePopup.Show();
+	}
+	
+	#region Signal connections
+	
+	public void OnGraphGuiInput(InputEvent e) {
+		if (e.IsActionPressed("add-graph-node")) {
+			AddGraphNode();
+			return;
+		}
+	}
+	
+	public void OnAddNodePopupIdPressed(int id) {
+		// TODO
+		switch(id) {
+			
+		case 0:
+			// matcher
+			GD.Print("matcher");
+			break;
+		case 1:
+			// selector
+			GD.Print("selector");
+			
+			break;
+		case 2:
+			// splitter
+			GD.Print("splitter");
+			
+			break;
+		default:
+			throw new ArgumentException($"Unexpected AddNodePopup item id pressed: {id}"); 
+		}
+	}
+	
+	public void OnTemplatesPopupIdPressed(int id) {
+		// TODO
+		GD.Print(id);
+	}
+	
+	#endregion
 }
