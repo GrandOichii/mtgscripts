@@ -29,4 +29,6 @@ public class Selector : ParserBase {
         if (status == ParseResultStatus.ALL_CHILDREN_FAILED && allDidntMatch) status = ParseResultStatus.DIDNT_MATCH;
         return new(this, status, text, children);
     }
+
+    public override string ParserType() => "selector";
 }

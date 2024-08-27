@@ -7,5 +7,6 @@ public abstract class ParserBase {
     public List<ParserBase> Children { get; set; } = new();
     public string Script { get; set; } = "function _Create() return 'error(\\'script not specified\\')' end";
 
+    public abstract string ParserType();
     abstract public ParseResult Parse(string text);
 }

@@ -35,6 +35,8 @@ public class Matcher : ParserBase {
     }
 
     public bool GroupCountMatches() => GroupCount == Children.Count;
+
+    public override string ParserType() => "matcher";
 }
 
 public class MatcherParseResult : ParseResult

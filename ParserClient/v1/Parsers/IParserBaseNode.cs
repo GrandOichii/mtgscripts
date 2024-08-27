@@ -5,6 +5,7 @@ using Godot;
 public interface IParserBaseNode {
     public GraphNode AsGraphNode();
     public int GetAvailablePort(int candidate);
+    public ParserBase GetParser();
 
     public void ConnectParent(GraphEdit graph, IParserBaseNode parent, int port) {
         var node = AsGraphNode();

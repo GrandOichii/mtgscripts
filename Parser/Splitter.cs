@@ -40,4 +40,5 @@ public class Splitter : ParserBase {
         return new(this, status, text, children);
     }
 
+    public override string ParserType() => "splitter";
 }

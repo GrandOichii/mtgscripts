@@ -1,0 +1,105 @@
+[gd_scene load_steps=3 format=3 uid="uid://dddwr3kixsu25"]
+
+[ext_resource type="Theme" uid="uid://dcu3lfbvhv0f1" path="res://assets/themes/basic.tres" id="1_q57ds"]
+[ext_resource type="Script" path="res://v1/Parsers/ParserEditWindowScene.cs" id="2_f2bio"]
+
+[node name="ParserEditWindowScene" type="Window"]
+title = "New parser"
+position = Vector2i(420, 180)
+size = Vector2i(600, 400)
+theme = ExtResource("1_q57ds")
+script = ExtResource("2_f2bio")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Name: "
+
+[node name="Name" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter parser name"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Type: "
+
+[node name="Type" type="OptionButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 3
+popup/item_0/text = "Matcher"
+popup/item_1/text = "Selector"
+popup/item_1/id = 1
+popup/item_2/text = "Splitter"
+popup/item_2/id = 2
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MatcherEdit" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SelectorEdit" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SplitterEdit" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save"
+
+[node name="CancelButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+
+[connection signal="close_requested" from="." to="." method="OnCloseRequested"]
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/HBoxContainer2/Type" to="." method="OnTypeItemSelected"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer3/SaveButton" to="." method="OnSaveButtonPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer3/CancelButton" to="." method="OnCancelButtonPressed"]

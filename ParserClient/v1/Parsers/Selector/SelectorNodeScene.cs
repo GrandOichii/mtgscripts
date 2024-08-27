@@ -3,6 +3,8 @@ using System;
 
 public partial class SelectorNodeScene : GraphNode, ISelectorNode
 {
+	private Selector _selector;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -12,6 +14,7 @@ public partial class SelectorNodeScene : GraphNode, ISelectorNode
 
 	public void Load(Selector selector)
 	{
+		_selector = selector;
 		Title = selector.Name;
 		
 		for (int i = 0; i < selector.Children.Count; i++) {
@@ -34,4 +37,6 @@ public partial class SelectorNodeScene : GraphNode, ISelectorNode
 	}
 
 	public int GetAvailablePort(int candidate) => candidate;
+
+	public ParserBase GetParser() => _selector;
 }

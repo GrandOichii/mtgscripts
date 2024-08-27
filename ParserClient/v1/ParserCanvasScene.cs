@@ -23,11 +23,16 @@ public partial class ParserCanvasScene : Control
 	
 	public GraphEdit Graph { get; private set; }
 	public PopupMenu AddNodePopup { get; private set; }
-	public PopupMenu TemplatesPopup { get; private set; }
+	public PopupMenu TemplateMatchersPopup { get; private set; }
+	public PopupMenu TemplateSelectorsPopup { get; private set; }
+	public PopupMenu TemplateSplittersPopup { get; private set; }
+	public PopupMenu EditNodePopup { get; private set; }
+	public ParserEditWindowScene ParserEditWindow { get; set; }
 	
 	#endregion
 
 	private ParserSceneVisitor _psv;
+	private bool _editNode = false;
 	
 	public override void _Ready()
 	{
@@ -35,7 +40,11 @@ public partial class ParserCanvasScene : Control
 		
 		Graph = GetNode<GraphEdit>("%Graph");
 		AddNodePopup = GetNode<PopupMenu>("%AddNodePopup");
-		TemplatesPopup = GetNode<PopupMenu>("%TemplatesPopup");
+		TemplateMatchersPopup = GetNode<PopupMenu>("%TemplateMatchersPopup");
+		TemplateSelectorsPopup = GetNode<PopupMenu>("%TemplateSelectorsPopup");
+		TemplateSplittersPopup = GetNode<PopupMenu>("%TemplateSplittersPopup");
+		EditNodePopup = GetNode<PopupMenu>("%EditNodePopup");
+		ParserEditWindow = GetNode<ParserEditWindowScene>("%ParserEditWindow");
 		
 		#endregion
 
@@ -183,7 +192,9 @@ public partial class ParserCanvasScene : Control
 	}
 
 	private void CreateSubmenus() {
-		AddNodePopup.AddSubmenuNodeItem("Templates", TemplatesPopup);
+		AddNodePopup.AddSubmenuNodeItem("Matchers", TemplateMatchersPopup);
+		AddNodePopup.AddSubmenuNodeItem("Selectors", TemplateSelectorsPopup);
+		AddNodePopup.AddSubmenuNodeItem("Splitters", TemplateSplittersPopup);
 	}
 
 	public void Load(ParserBase parser) {
@@ -197,6 +208,8 @@ public partial class ParserCanvasScene : Control
 	public IParserBaseNode CreateParserNode(ParserBase parser) {
 		var result = _psv.CreateScene(parser);
 		var node = result.AsGraphNode();
+		node.GuiInput += (e) => OnGraphNodeGuiInput(result, e);
+		
 		Graph.AddChild(node);
 
 		var children = new List<IParserBaseNode>();
@@ -232,37 +245,68 @@ public partial class ParserCanvasScene : Control
 	
 	public void OnGraphGuiInput(InputEvent e) {
 		if (e.IsActionPressed("add-graph-node")) {
+			if (_editNode) {
+				_editNode = false;
+				return;
+			}
 			AddGraphNode();
 			return;
 		}
 	}
 	
 	public void OnAddNodePopupIdPressed(int id) {
-		// TODO
-		switch(id) {
+		switch (id) {
 			
 		case 0:
-			// matcher
-			GD.Print("matcher");
-			break;
-		case 1:
-			// selector
-			GD.Print("selector");
-			
-			break;
-		case 2:
-			// splitter
-			GD.Print("splitter");
-			
+			ParserEditWindow.Unload();
+			ParserEditWindow.Show();
 			break;
 		default:
-			throw new ArgumentException($"Unexpected AddNodePopup item id pressed: {id}"); 
+			throw new ArgumentException($"Unrecognized AddNodePopup id pressed: {id}");
+			
 		}
 	}
 	
-	public void OnTemplatesPopupIdPressed(int id) {
+	public void OnTemplateMatchersPopupIdPressed(int id) {
 		// TODO
 		GD.Print(id);
+	}
+	
+	public void OnTemplateSelectorsPopupIdPressed(int id) {
+		// TODO
+		GD.Print(id);
+	}
+	
+	public void OnTemplateSplittersPopupIdPressed(int id) {
+		// TODO
+		GD.Print(id);
+	}
+	
+	public void OnEditNodePopupIdPressed(int id) {
+		switch (id) {
+			
+		case 0:
+			var node = ParserEditWindow.GetMeta("edited").As<Node>() as IParserBaseNode;
+			ParserEditWindow.RemoveMeta("edited");
+			ParserEditWindow.Load(node.GetParser());
+			ParserEditWindow.Show();
+			return;
+		case 1:
+			GD.Print("saving as template");
+			return;
+		default:
+			throw new ArgumentException($"Unknown EditNodePopup id pressed: {id}");
+		}
+	}
+	
+	public void OnGraphNodeGuiInput(IParserBaseNode node, InputEvent e) {
+		if (e.IsActionPressed("edit-graph-node")) {
+			_editNode = true;
+			ParserEditWindow.SetMeta("edited", node.AsGraphNode());
+			EditNodePopup.Position = (Vector2I)GetGlobalMousePosition();
+			EditNodePopup.Show();
+			return;
+		}
 	}
 	
 	#endregion

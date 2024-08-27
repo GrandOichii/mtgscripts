@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bcr1u5fa35gli"]
+[gd_scene load_steps=7 format=3 uid="uid://bcr1u5fa35gli"]
 
 [ext_resource type="Script" path="res://v1/ParserCanvasScene.cs" id="1_6o5k0"]
 [ext_resource type="PackedScene" uid="uid://48xy8ftvka7y" path="res://v1/Parsers/Matcher/MatcherNodeScene.tscn" id="2_jh3fr"]
 [ext_resource type="PackedScene" uid="uid://by25bmmhenrh1" path="res://v1/Parsers/Selector/SelectorNodeScene.tscn" id="3_6k3gc"]
 [ext_resource type="PackedScene" uid="uid://nn07tskof4h" path="res://v1/Parsers/Splitter/SplitterNodeScene.tscn" id="4_yyw4y"]
 [ext_resource type="Theme" uid="uid://dcu3lfbvhv0f1" path="res://assets/themes/basic.tres" id="5_xmkpj"]
+[ext_resource type="PackedScene" uid="uid://dddwr3kixsu25" path="res://v1/Parsers/ParserEditWindowScene.tscn" id="6_7jcyv"]
 
 [node name="ParserCanvas" type="Control"]
 layout_mode = 3
@@ -32,25 +33,65 @@ grow_vertical = 2
 [node name="AddNodePopup" type="PopupMenu" parent="Popups"]
 unique_name_in_owner = true
 title = "Add new node"
-size = Vector2i(100, 120)
+size = Vector2i(350, 198)
 theme = ExtResource("5_xmkpj")
-item_count = 4
-item_0/text = "Matcher"
-item_1/text = "Selector"
-item_1/id = 1
-item_2/text = "Splitter"
-item_2/id = 2
-item_3/id = 3
-item_3/separator = true
+item_count = 2
+item_0/text = "New parser"
+item_1/text = "Templates"
+item_1/id = 3
+item_1/separator = true
 
-[node name="TemplatesPopup" type="PopupMenu" parent="Popups/AddNodePopup"]
+[node name="TemplateMatchersPopup" type="PopupMenu" parent="Popups/AddNodePopup"]
 unique_name_in_owner = true
+position = Vector2i(0, 270)
+size = Vector2i(143, 100)
 theme = ExtResource("5_xmkpj")
 item_count = 2
 item_0/text = "Template1"
 item_1/text = "Template2"
 item_1/id = 1
 
+[node name="TemplateSelectorsPopup" type="PopupMenu" parent="Popups/AddNodePopup"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+position = Vector2i(0, 270)
+size = Vector2i(143, 100)
+theme = ExtResource("5_xmkpj")
+item_count = 2
+item_0/text = "Template1"
+item_1/text = "Template2"
+item_1/id = 1
+
+[node name="TemplateSplittersPopup" type="PopupMenu" parent="Popups/AddNodePopup"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+position = Vector2i(0, 270)
+size = Vector2i(143, 100)
+theme = ExtResource("5_xmkpj")
+item_count = 2
+item_0/text = "Template1"
+item_1/text = "Template2"
+item_1/id = 1
+
+[node name="EditNodePopup" type="PopupMenu" parent="Popups"]
+unique_name_in_owner = true
+size = Vector2i(217, 100)
+theme = ExtResource("5_xmkpj")
+item_count = 2
+item_0/text = "Edit parser"
+item_1/text = "Save as template"
+item_1/id = 1
+
+[node name="Windows" type="Node" parent="."]
+
+[node name="ParserEditWindow" parent="Windows" instance=ExtResource("6_7jcyv")]
+unique_name_in_owner = true
+initial_position = 2
+visible = false
+
 [connection signal="gui_input" from="Graph" to="." method="OnGraphGuiInput"]
 [connection signal="id_pressed" from="Popups/AddNodePopup" to="." method="OnAddNodePopupIdPressed"]
-[connection signal="id_pressed" from="Popups/AddNodePopup/TemplatesPopup" to="." method="OnTemplatesPopupIdPressed"]
+[connection signal="id_pressed" from="Popups/AddNodePopup/TemplateMatchersPopup" to="." method="OnTemplateMatchersPopupIdPressed"]
+[connection signal="id_pressed" from="Popups/AddNodePopup/TemplateSelectorsPopup" to="." method="OnTemplateSelectorsPopupIdPressed"]
+[connection signal="id_pressed" from="Popups/AddNodePopup/TemplateSplittersPopup" to="." method="OnTemplateSplittersPopupIdPressed"]
+[connection signal="id_pressed" from="Popups/EditNodePopup" to="." method="OnEditNodePopupIdPressed"]

@@ -3,6 +3,8 @@ using System;
 
 public partial class SplitterNodeScene : GraphNode, ISplitterNode
 {
+	private Splitter _splitter;
+
 	public override void _Ready()
 	{
 	}
@@ -11,6 +13,7 @@ public partial class SplitterNodeScene : GraphNode, ISplitterNode
 
 	public void Load(Splitter splitter)
 	{
+		_splitter = splitter;
 		Title = splitter.Name;
 		AddChild(new Label());
 
@@ -24,4 +27,6 @@ public partial class SplitterNodeScene : GraphNode, ISplitterNode
 	}
 
 	public int GetAvailablePort(int candidate) => 0;
+
+	public ParserBase GetParser() => _splitter;
 }
