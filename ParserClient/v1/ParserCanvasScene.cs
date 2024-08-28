@@ -252,6 +252,10 @@ public partial class ParserCanvasScene : Control
 			AddGraphNode();
 			return;
 		}
+		if (e.IsActionPressed("arrange-graph")) {
+			Graph.ArrangeNodes();
+			return;
+		}
 	}
 	
 	public void OnAddNodePopupIdPressed(int id) {
